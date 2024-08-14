@@ -3,40 +3,42 @@ import { Images } from './Components/Images'
 import {recipe} from './Data/Data'
 import { CustomList } from './Components/CustomList'
 import {Example} from './Components/Example'
+import {Greeting} from './Components/Greeting'
+import {Button} from './Components/Button'
 
 function App() {
+  const o = [{
+    name:"John",
+    role:"software developer"
+  },
+  {
+    name:"ohn",
+    role:"React developer"
+  },
+  {
+    name:"town",
+    role:"Angular developer"
+  },
+  {
+    name:"mown",
+    role:"Beta developer"
+  }
+
+
+
+]
   return (
-    <>
+    <>{
+         o.map((each,index)=>{
 
-
-    {
-      recipe.map(
-        (each,index)=>{
-          return(
-
+          return (
             <div key={index}>
-              <Heading size={1} content={each.name} />
-              <Images src={each.image} />
-              <Heading size={3} content={"INGRIDIENTS TO PREPARE"}/>
-              <CustomList list={each.ingredients}/>
-              <Heading size={3} content={"INSTRUCTIONS"} />
-              <CustomList list={each.instructions}/>
-              {/* <Heading>THIS IS RISHWANTH</Heading>
-              <Example content={"blabla"}>
-                {/* This is a CHILDRED 
-                 */}
-                 {/* <Heading size={1} content={each.name} /> */}
-                 {/* <h1>la lala laa la</h1>
-                </Example> */} */}
-
-
-            <hr />
-
+            <Greeting content={each.name}/>
+            <Button content={each.name} role={each.role} >CLick on {each.name}</Button>
             </div>
           )
-        }
-      )
-    }
+         })
+      }
 
     </>
   )
