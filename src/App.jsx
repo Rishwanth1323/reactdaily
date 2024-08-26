@@ -35,7 +35,7 @@ class App extends Component{
     this.fetchProductsByCategory(e.target.innerText); //ACtually this should be done in componentdidmount
   }
   fetchProductsByCategory=async(value)=>{
-    const products = await axios(`https://fakestoreapi.com/products/category/${value}`)
+    const products = await axios(https://fakestoreapi.com/products/category/${value})
     this.setState({
       products:products.data
     })
