@@ -1,88 +1,71 @@
 import { Component } from "react";
+import axios from "axios";
 import CardCreation from "./Components/CardCreation";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.css'; 
-class App extends Component {
-  state = {
-    addUser: false,
-    array: [],
-    newName: '',
-    newDesignation: ''
-  };
 
-  addUser = () => {
-    // Add a new user to the array
-    const { newName, newDesignation, array } = this.state;
-    if (newName && newDesignation) {
-      this.setState({
-        array: [...array, { name: newName, designation: newDesignation }],
-        addUser: false, // Hide the input fields after adding
-        newName: '',
-        newDesignation: ''
-      });
-      toast.success("User added successfully!"); // Display success toast
-    } else {
-      toast.error("Failed to add user. Please provide both name and designation."); // Display error toast if fields are empty
+
+class App extends Component{
+  state={
+    products:[],
+    categories:[]
+  }
+
+  componentDidMount(){
+    this.fetchCategories();
+    this.fetchProducts();
+  }
+
+  fetchCategories=async()=>{
+    const categories = await axios("https://fakestoreapi.com/products/categories");
+    // console.log(categories);
+    this.setState({categories:categories.data});
+  }
+  fetchProducts=async()=>{
+    const products   = await axios("https://fakestoreapi.com/products");
+    // console.log(products);
+    this.setState({products:products.data});
+  }
+  clickHandler = (e) =>{
+    // console.log("Button clicked");
+    // console.log(e.target.innerText);
+    if(e.target.innerText==="ALL"){
+      console.log("ALL");
+      this.fetchProducts();
     }
-  };
-
-  handleNameChange = (event) => {
-    this.setState({ newName: event.target.value });
-  };
-
-  handleDesignationChange = (event) => {
-    this.setState({ newDesignation: event.target.value });
-  };
-
-  deleteUser = (index) => {
-    // Remove the user at the specified index from the array
-    const newArray = this.state.array.filter((_, i) => i !== index);
-    this.setState({ array: newArray });
-    toast.error("User deleted successfully!"); // Display error toast on delete
-  };
-
-  render() {
-    const { addUser, array, newName, newDesignation } = this.state;
-
-    return (
-      <>
-      <ToastContainer />  
-        <button onClick={() => this.setState({ addUser: !addUser })}>
-          {addUser ? 'Cancel' : 'Add a User'}
-        </button>
-
-        {addUser && (
-          <>
-            <input
-              type="text"
-              placeholder="name"
-              value={newName}
-              onChange={this.handleNameChange}
-            />
-            <input
-              type="text"
-              placeholder="designation"
-              value={newDesignation}
-              onChange={this.handleDesignationChange}
-            />
-            <button onClick={this.addUser}>Submit</button>
-          </>
-        )}
-
-        {array.map((each, index) => (
-          <CardCreation
-            key={index}
-            title={each.name}
-            designation={each.designation}
-            onDelete={() => this.deleteUser(index)}  // Pass the delete function
-          />
-        ))}
-
-        
-      </>
-    );
+    else
+    this.fetchProductsByCategory(e.target.innerText); //ACtually this should be done in componentdidmount
+  }
+  fetchProductsByCategory=async(value)=>{
+    const products = await axios(`https://fakestoreapi.com/products/category/${value}`)
+    this.setState({
+      products:products.data
+    })
+  }
+  render(){
+    return(
+        <>
+        <h1>select the Categories</h1>
+        {
+          this.state.categories.map((each,index)=>{
+            return(
+              <button onClick={this.clickHandler} key={index} class="bg-red-500 hover:bg-red-700 text-green font-bold py-2 px-4 rounded">
+                {each}
+              </button>
+            )
+          })
+        }
+        <button onClick={this.clickHandler}  class="bg-red-500 hover:bg-red-700 text-green font-bold py-2 px-4 rounded">
+                ALL
+              </button>
+        <h3>DATA THAT IS FETCHED FROM PRODUCTS</h3>
+        {
+          this.state.products.map((each,index)=>{
+            return(
+              <CardCreation key={index} title={each.title} designation={each.price} />
+            )
+          })
+        }
+        </>
+    )
   }
 }
-
 export default App;
