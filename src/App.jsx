@@ -1,51 +1,21 @@
-import { Component } from "react";
+import React from 'react';
+import ChildComponent from './Components/ChildComponent';
+import { useState } from 'react';
+const App = () =>{
+  const [message, setMessage] = useState('');
+  const [message1, setMessage1] = useState('');
+  const handler = (data1,data2) =>{
+    setMessage(data1);
+    setMessage1(data2)
+  }
+  return(
+    <>
+    <h1>Parent Component : {message}</h1>
+    <h1>Parent Component : {message1}</h1>
+    
+    <ChildComponent pass={handler} > hello </ChildComponent>
 
-class App extends Component {
-    state = {
-        fahrenheit: '', //important
-        celsius: '', // important
-    };
-
-    changeHandler = (e) => {
-        let fahrenheit = e.target.value;
-        let celsius = (5 / 9) * (fahrenheit - 32);
-
-        this.setState({
-            fahrenheit: fahrenheit,
-            celsius: celsius.toFixed(2), // Setting to 2 decimal places for clarity
-        });
-    };
-
-    changeHandle = (e) => {
-        let celsius = e.target.value;
-        let fahrenheit = (9 / 5) * celsius + 32;
-
-        this.setState({
-            celsius: celsius,
-            fahrenheit: fahrenheit.toFixed(2), // Setting to 2 decimal places for clarity
-        });
-    };
-
-    render() {
-        return (
-            <>
-                <h1>Hello, World!</h1>
-                <h1>CONVERTER</h1>
-                <input
-                    type="text"
-                    placeholder="Fahrenheit"
-                    value={this.state.fahrenheit} // impoertant
-                    onChange={this.changeHandler}
-                /><br />
-                <input
-                    type="text"
-                    placeholder="Celsius"
-                    value={this.state.celsius}
-                    onChange={this.changeHandle}
-                />
-            </>
-        );
-    }
+    </>
+  )
 }
-
 export default App;
