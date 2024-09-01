@@ -2,8 +2,9 @@ import React from 'react'
 // import Addanddelete from './Components/useState/Addanddelete'
 // import EvenOrOdd from './Components/useState/EvenOrOdd'
 // import Counter from './Components/useRef/Counter'
+import ControlledComponent from './Components/ControlledComponent'
 // import UserloginuseREf from './Components/useRef/UserloginuseREf'
-import Uncontrolled from './Components/useRef/Uncontrolled/Uncontrolled'
+// import Uncontrolled from './Components/useRef/Uncontrolled/Uncontrolled'
 export default function App() {
   return (
     <div>
@@ -12,7 +13,8 @@ export default function App() {
       
       {/* <Counter></Counter> */}
       {/* <UserloginuseREf></UserloginuseREf> */}
-      <Uncontrolled></Uncontrolled>
+      {/* <Uncontrolled></Uncontrolled> */}
+      <ControlledComponent></ControlledComponent>
     </div>
   )
 }
